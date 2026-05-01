@@ -20,7 +20,6 @@
 @interface SapphireExternalMenu () <UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate>
 @property (nonatomic, strong) Khanhios *freefireMenu;
 @end
-@end
 
 @implementation SapphireExternalMenu {
     UIView *_modMenuView;
