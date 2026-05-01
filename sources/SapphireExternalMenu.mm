@@ -35,7 +35,8 @@
     UIScrollView *_mainScrollView;
     UIView *_customAlertView;
     NSMutableArray *_activeAlerts;
-    // DrawingManager *_drawingManager;
+    BOOL _drawingCircleVisible;
+    BOOL _drawingSvgVisible;
     HUDDrawingOverlay *_drawingOverlay;    // 王者荣耀绘制覆盖层
     UIView *_wangzheSettingsView;          // 王者荣耀设置面板
     NSInteger _currentSegmentIndex;
@@ -822,9 +823,9 @@
             
            
             if ([item[@"title"] isEqualToString:@"Red Circle"]) {
-                buttonLabel.text = _drawingManager.circleVisible ? @"DISABLE" : @"ENABLE";
+                buttonLabel.text = _drawingCircleVisible ? @"DISABLE" : @"ENABLE";
             } else if ([item[@"title"] isEqualToString:@"SVG Drawing"]) {
-                buttonLabel.text = _drawingManager.svgVisible ? @"DISABLE" : @"ENABLE";
+                buttonLabel.text = _drawingSvgVisible ? @"DISABLE" : @"ENABLE";
             } else if ([item[@"title"] isEqualToString:@"RGB Theme"]) {
                 buttonLabel.text = _rgbThemeEnabled ? @"DISABLE" : @"ENABLE";
             } else {
@@ -1137,37 +1138,32 @@
         
         if ([title isEqualToString:@"SVG Drawing"]) {
           
-            _drawingManager.svgVisible = !_drawingManager.svgVisible;
-            [_drawingManager toggleSVG:_drawingManager.svgVisible];
-            
-         
-            _drawingManager.circleVisible = _drawingManager.svgVisible;
-            [_drawingManager toggleCircle:_drawingManager.circleVisible];
+            _drawingSvgVisible = !_drawingSvgVisible;
+            _drawingCircleVisible = _drawingSvgVisible;
             
           
             UILabel *buttonLabel = [buttonContainer viewWithTag:2000 + buttonIndex];
             if (buttonLabel) {
-                buttonLabel.text = _drawingManager.svgVisible ? @"DISABLE" : @"ENABLE";
+                buttonLabel.text = _drawingSvgVisible ? @"DISABLE" : @"ENABLE";
             }
             
-         
-            NSString *status = _drawingManager.svgVisible ? @"enabled" : @"disabled";
+          
+            NSString *status = _drawingSvgVisible ? @"enabled" : @"disabled";
             [self showCustomAlert:@"SVG Drawing" description:[NSString stringWithFormat:@"SVG drawing and red circle have been %@!", status]];
             
-           
+          
         } else if ([title isEqualToString:@"Red Circle"]) {
         
-            _drawingManager.circleVisible = !_drawingManager.circleVisible;
-            [_drawingManager toggleCircle:_drawingManager.circleVisible];
+            _drawingCircleVisible = !_drawingCircleVisible;
             
         
             UILabel *buttonLabel = [buttonContainer viewWithTag:2000 + buttonIndex];
             if (buttonLabel) {
-                buttonLabel.text = _drawingManager.circleVisible ? @"DISABLE" : @"ENABLE";
+                buttonLabel.text = _drawingCircleVisible ? @"DISABLE" : @"ENABLE";
             }
             
-         
-            NSString *status = _drawingManager.circleVisible ? @"enabled" : @"disabled";
+          
+            NSString *status = _drawingCircleVisible ? @"enabled" : @"disabled";
             [self showCustomAlert:@"Red Circle" description:[NSString stringWithFormat:@"Red circle has been %@!", status]];
             
             
@@ -1207,21 +1203,17 @@
             
         } else if ([title isEqualToString:@"Draw Mode"]) {
             
-            _drawingManager.svgVisible = !_drawingManager.svgVisible;
-            [_drawingManager toggleSVG:_drawingManager.svgVisible];
+            _drawingSvgVisible = !_drawingSvgVisible;
+            _drawingCircleVisible = _drawingSvgVisible;
             
         
-            _drawingManager.circleVisible = _drawingManager.svgVisible;
-            [_drawingManager toggleCircle:_drawingManager.circleVisible];
-            
-
             UILabel *buttonLabel = [buttonContainer viewWithTag:2000 + buttonIndex];
             if (buttonLabel) {
-                buttonLabel.text = _drawingManager.svgVisible ? @"DISABLE" : @"ENABLE";
+                buttonLabel.text = _drawingSvgVisible ? @"DISABLE" : @"ENABLE";
             }
             
-           
-            NSString *status = _drawingManager.svgVisible ? @"enabled" : @"disabled";
+          
+            NSString *status = _drawingSvgVisible ? @"enabled" : @"disabled";
             [self showCustomAlert:@"Draw Mode" description:[NSString stringWithFormat:@"Draw mode and red circle have been %@!", status]];
             
            
@@ -1343,35 +1335,28 @@
         
    
         if ([title isEqualToString:@"Table Size"]) {
-            [_drawingManager updateSVGSize:actualValue];
-     
+            // DrawingManager functionality removed
             [sender setTranslation:CGPointZero inView:sliderContainer];
             return;
         }
         
     
         if ([title isEqualToString:@"Table Position Y"]) {
-            [_drawingManager updateSVGPositionY:actualValue];
-           
+            // DrawingManager functionality removed
             [sender setTranslation:CGPointZero inView:sliderContainer];
             return;
         }
         
  
         if ([title isEqualToString:@"Table Position X"]) {
-            [_drawingManager updateSVGPositionX:actualValue];
-            
+            // DrawingManager functionality removed
             [sender setTranslation:CGPointZero inView:sliderContainer];
             return;
         }
         
  
         if ([title isEqualToString:@"Target Ball Size"]) {
-        
-           
-            [_drawingManager updateCircleSize:actualValue];
-          
-        
+            // DrawingManager functionality removed
             [sender setTranslation:CGPointZero inView:sliderContainer];
             return;
         }
@@ -1387,39 +1372,34 @@
         
       
         if ([title isEqualToString:@"Connection Lines Thickness"]) {
-            [_drawingManager updateConnectionLineThickness:actualValue];
-            
+            // DrawingManager functionality removed
             [sender setTranslation:CGPointZero inView:sliderContainer];
             return;
         }
         
     
         if ([title isEqualToString:@"Table Thickness"]) {
-            [_drawingManager updateSVGLineThickness:actualValue];
-           
+            // DrawingManager functionality removed
             [sender setTranslation:CGPointZero inView:sliderContainer];
             return;
         }
         
       
         if ([title isEqualToString:@"Ball Thickness"]) {
-            [_drawingManager updateCircleThickness:actualValue];
-          
+            // DrawingManager functionality removed
             [sender setTranslation:CGPointZero inView:sliderContainer];
             return;
         }
         
 
         if ([title isEqualToString:@"Pocket Lines Size"]) {
-            [_drawingManager updateConnectionLineThickness:actualValue];
-          
+            // DrawingManager functionality removed
             [sender setTranslation:CGPointZero inView:sliderContainer];
             return;
         }
         
         if ([title isEqualToString:@"Pocket Lines Alpha"]) {
-            [_drawingManager updateConnectionLineAlpha:actualValue];
-          
+            // DrawingManager functionality removed
             [sender setTranslation:CGPointZero inView:sliderContainer];
             return;
         }
@@ -2233,7 +2213,7 @@ static inline CGRect orientationBounds(UIInterfaceOrientation orientation, CGRec
     }
     
     
-    [_drawingManager updateSVGColor:newColor];
+    // DrawingManager functionality removed
     
 
     for (UIView *menuItemView in _mainScrollView.subviews) {
@@ -2405,10 +2385,8 @@ static inline CGRect orientationBounds(UIInterfaceOrientation orientation, CGRec
     [super viewDidLayoutSubviews];
     
    
-    [_drawingManager updateCirclePosition];
-    
-
-    [_drawingManager updateSVGPosition];
+    // DrawingManager functionality removed
+    // DrawingManager functionality removed
     
     // 更新绘制覆盖层尺寸
     if (_drawingOverlay) {
@@ -2539,25 +2517,25 @@ static inline CGRect orientationBounds(UIInterfaceOrientation orientation, CGRec
    
     
     if ([title isEqualToString:@"Table Thickness"]) {
-        [_drawingManager updateSVGLineThickness:defaultValue];
+        // DrawingManager functionality removed
     } else if ([title isEqualToString:@"Ball Thickness"]) {
-        [_drawingManager updateCircleThickness:defaultValue];
+        // DrawingManager functionality removed
     } else if ([title isEqualToString:@"Table Size"]) {
-        [_drawingManager updateSVGSize:defaultValue];
+        // DrawingManager functionality removed
     } else if ([title isEqualToString:@"Table Position Y"]) {
-        [_drawingManager updateSVGPositionY:defaultValue];
+        // DrawingManager functionality removed
     } else if ([title isEqualToString:@"Table Position X"]) {
-        [_drawingManager updateSVGPositionX:defaultValue];
+        // DrawingManager functionality removed
     } else if ([title isEqualToString:@"Target Ball Size"]) {
-        [_drawingManager updateCircleSize:defaultValue];
+        // DrawingManager functionality removed
     } else if ([title isEqualToString:@"RGB Slider"]) {
         [self updateRGBColor:defaultValue];
     } else if ([title isEqualToString:@"Scale Menu"]) {
         _modMenuView.transform = CGAffineTransformMakeScale(defaultValue, defaultValue);
     } else if ([title isEqualToString:@"Pocket Lines Size"]) {
-        [_drawingManager updateConnectionLineThickness:defaultValue];
+        // DrawingManager functionality removed
     } else if ([title isEqualToString:@"Pocket Lines Alpha"]) {
-        [_drawingManager updateConnectionLineAlpha:defaultValue];
+        // DrawingManager functionality removed
     } else if ([title isEqualToString:@"地图X"]) {
         if (_drawingOverlay) {
             _drawingOverlay.mapX = defaultValue;
