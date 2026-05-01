@@ -42,6 +42,7 @@ Sapphire_USE_MODULES  := 0
 
 
 Sapphire_FILES        := $(wildcard sources/*.m sources/*.mm)
+Sapphire_FILES       := $(filter-out sources/satooios.mm sources/UIHelper.mm,$(Sapphire_FILES))
 Sapphire_FILES       += sources/satooios.mm
 Sapphire_FILES       += sources/UIHelper.mm
 
@@ -89,9 +90,9 @@ after-package::
 
 	# Update Info.plist
 	# Remove CFBundleIconName entry (two-line key/value) if present
-	$(ECHO_NOTHING) sed -i '/<key>CFBundleIconName<\/key>/{N;d;}' $(STAGING_APP_PATH)/Info.plist $(ECHO_END)
+	$(ECHO_NOTHING) perl -0pi -e 's#<key>CFBundleIconName</key>\s*<string>.*?</string>##s' "$(STAGING_APP_PATH)/Info.plist" $(ECHO_END)
 	# Update CFBundleVersion value (replace the following <string> line)
-	$(ECHO_NOTHING) sed -i "/<key>CFBundleVersion<\/key>/{n;s/<string>.*<\/string>/<string>$(VERSION)<\/string>/;}" $(STAGING_APP_PATH)/Info.plist $(ECHO_END)
+	$(ECHO_NOTHING) perl -0pi -e 's#<key>CFBundleVersion</key>\s*<string>.*?</string>#<key>CFBundleVersion</key><string>$(VERSION)</string>#s' "$(STAGING_APP_PATH)/Info.plist" $(ECHO_END)
 
 	# Create .tipa archive
-	$(ECHO_NOTHING) (cd $(THEOS_STAGING_DIR) && zip -qr $(abspath $(FINAL_TIPA_PATH)) Payload) $(ECHO_END)
+	$(ECHO_NOTHING) (cd "$(THEOS_STAGING_DIR)" && zip -qr "$(abspath $(FINAL_TIPA_PATH))" Payload) $(ECHO_END)

@@ -49,7 +49,28 @@
 }
 
 - (UIViewController *)topViewController {
-    UIViewController *rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    UIWindow *window = nil;
+    if (@available(iOS 13.0, *)) {
+        for (UIWindowScene *scene in [UIApplication sharedApplication].connectedScenes) {
+            if (scene.activationState == UISceneActivationStateForegroundActive) {
+                for (UIWindow *candidate in scene.windows) {
+                    if (candidate.isKeyWindow) {
+                        window = candidate;
+                        break;
+                    }
+                }
+                if (window) {
+                    break;
+                }
+            }
+        }
+    }
+
+    if (!window) {
+        window = [UIApplication sharedApplication].keyWindow;
+    }
+
+    UIViewController *rootViewController = window.rootViewController;
     while (rootViewController.presentedViewController) {
         rootViewController = rootViewController.presentedViewController;
     }

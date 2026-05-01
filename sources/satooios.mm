@@ -6,6 +6,8 @@
 #include <mach-o/dyld.h>
 #import <Foundation/Foundation.h>
 #import <UIKit/UIControl.h>
+#import <objc/runtime.h>
+#import <objc/message.h>
 #import "satooios.h"
 #import "UIHelper.h"
 
@@ -52,6 +54,20 @@
 #define iconClose        _pLm92KxNzQwR
 #define iconMoon         _tWk39LmPqRxZ
 
+#ifndef ENCRYPTOFFSET
+#define ENCRYPTOFFSET(x) (x)
+#endif
+
+#define getRealOffset(x) ((uintptr_t)(x))
+
+static inline uintptr_t getRealOffset(const char *offset) {
+    (void)offset;
+    return 0;
+}
+
+static inline void Desactivo(void) {
+}
+
 #define fontRegular      _AoPvJt9ZwRmL
 #define fontSemiBold     _XrTvKoMw3Bd9
 
@@ -90,7 +106,6 @@ typedef NS_ENUM(NSUInteger, MenuTab) {
 };
 
 @interface Khanhios() <UIGestureRecognizerDelegate>
-@property (nonatomic, strong) UIAlertView* alertView;
 
 @property (nonatomic, strong) UIView *menuContainer;
 @property (nonatomic, strong) UIView *sidebarView;
@@ -120,7 +135,7 @@ typedef NS_ENUM(NSUInteger, MenuTab) {
 @property (nonatomic, strong) UIFont *fontRegular;
 @property (nonatomic, strong) UIFont *fontSemiBold;
 
-// @property (nonatomic, strong) CADisplayLink *displayLink;
+@property (nonatomic, strong) CADisplayLink *displayLink;
 @property (nonatomic, assign) CGPoint panStartLocation;
 @property (nonatomic, assign) CGPoint menuStartCenter;
 
@@ -128,6 +143,43 @@ typedef NS_ENUM(NSUInteger, MenuTab) {
 @property (nonatomic, strong) NSMutableArray *sliderContainers;
 
 @end
+
+typedef struct {
+    BOOL Aimbot;
+    BOOL aimkill;
+    BOOL IgnoreKnocked;
+    int AimHitbox;
+    BOOL isAimFov;
+    float AimFov;
+    BOOL lines;
+    BOOL Box;
+    BOOL Name;
+    BOOL skeleton;
+    BOOL skeletonWallhack;
+    int BoxStyle;
+    int LineStyle;
+    int NameStyle;
+    int HealthPos;
+    float AimSpeed;
+} Vars_t;
+
+static Vars_t Vars;
+static BOOL DarkMode = NO;
+
+typedef struct {
+    void (*init)(void);
+} GameSDK;
+
+static GameSDK *game_sdk = NULL;
+
+static inline void get_players(void) {
+}
+
+static inline void satoo(void **address, void **function, int count) {
+    (void)address;
+    (void)function;
+    (void)count;
+}
 
 @implementation Khanhios
 
@@ -1803,7 +1855,9 @@ __attribute__((always_inline)) void updateGlowEffectForView(UIView *view, UIColo
         
         static bool sdkInitialized = false;
         if (!sdkInitialized) {
-            game_sdk->init();
+            if (game_sdk && game_sdk->init) {
+                game_sdk->init();
+            }
             sdkInitialized = true;
         }
         
