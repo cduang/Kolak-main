@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIControl.h>
 #import "satooios.h"
-#import "../UI/UIHelper.h"
+#import "UIHelper.h"
 
 // #import "Memory.h"
 // #import "../Hooks/hook.h"
