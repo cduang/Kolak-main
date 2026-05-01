@@ -37,7 +37,14 @@ jobs:
     - name: Build and Package
       run: |
         make clean 2>/dev/null || true
-        make package TARGET=iphone:clang:latest:14.5
+        make package TARGET=iphone:clang:latest:14.5 2>&1 | tee build.log
+
+    - name: Upload Build Log (on failure)
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-error-log
+        path: build.log
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4

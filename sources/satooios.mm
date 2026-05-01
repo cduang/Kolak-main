@@ -12,10 +12,11 @@
 // #import "Memory.h"
 // #import "../Hooks/hook.h"
 
-#import "CaptainHook.h"
-#import "Vector3.h"
-#import "Vector2.h"
-#import "Quaternion.h"
+// CaptainHook.h, Vector3.h, Vector2.h, Quaternion.h are not used in this file
+// #import "CaptainHook.h"
+// #import "Vector3.h"
+// #import "Vector2.h"
+// #import "Quaternion.h"
 #import "Monostring.h"
 #import "Obfuscate.h"
 // #import "../Hooks/Hooks.h"
