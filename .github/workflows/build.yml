@@ -2,33 +2,45 @@ name: Build External Tool
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: macos-latest
     
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
     - name: Install Dependencies
       run: |
-        brew install ldid fakeroot dpkg
+        brew install ldid fakeroot dpkg xz
 
     - name: Install Theos
       run: |
         sudo git clone --recursive https://github.com/theos/theos.git /opt/theos
         echo "THEOS=/opt/theos" >> $GITHUB_ENV
 
+    - name: Select Xcode
+      run: |
+        sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+        echo "Available SDKs:"
+        ls -la /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/ 2>/dev/null || echo "No iPhone SDK found, installing..."
+        # If no iPhone SDK, download it
+        if [ ! -d "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs" ]; then
+          git clone --depth=1 https://github.com/theos/sdks /tmp/sdks
+          sudo mkdir -p /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/
+          sudo cp /tmp/sdks/iPhoneOS*.sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/ 2>/dev/null || true
+        fi
+
     - name: Build and Package
       run: |
+        make clean 2>/dev/null || true
         make package TARGET=iphone:clang:latest:14.5
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: Sapphire-FreeFire-External-Tool
+        name: Sapphire-Kolak-External-Tool
         path: packages/*.tipa
