@@ -431,7 +431,10 @@
         uint64_t monster = [self readPtr:monsterArray + r * 0x18];
         if ([self isInvalidPtr:monster]) continue;
         
-        int monsterId = (int)[_memoryUtils readInt32AtAddress:monster + 0xC0 error:&error];
+        // int monsterId = (int)[_memoryUtils readInt32AtAddress:monster + 0xC0 error:&error];
+        // 已读取但当前未使用怪物类型ID，保留供后续扩展
+        int _unused_monsterId = (int)[_memoryUtils readInt32AtAddress:monster + 0xC0 error:&error];
+        (void)_unused_monsterId;
         if (error) continue;
         
         int rawTime = (int)[_memoryUtils readInt32AtAddress:monster + 0x240 error:&error];
@@ -534,7 +537,7 @@
     CGContextBeginPath(ctx);
     CGContextSetStrokeColorWithColor(ctx, color.CGColor);
     CGContextSetFillColorWithColor(ctx, color.CGColor);
-    CGContextAddArc(ctx, scaledX, scaledY, scaledR, 0, 2 * M_PI);
+    CGContextAddArc(ctx, scaledX, scaledY, scaledR, 0, 2 * M_PI, 0);
     
     if (isFill) {
         CGContextFillPath(ctx);
