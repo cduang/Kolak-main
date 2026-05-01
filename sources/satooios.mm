@@ -17,8 +17,9 @@
 // #import "Vector3.h"
 // #import "Vector2.h"
 // #import "Quaternion.h"
-#import "Monostring.h"
-#import "Obfuscate.h"
+// Monostring.h and Obfuscate.h are not available in this project
+// #import "Monostring.h"
+// #import "Obfuscate.h"
 // #import "../Hooks/Hooks.h"
 
 // تم نقل وظائف المساعدة الأمنية والتحقق من الاتصال إلى Helper/UIHelper.mm
