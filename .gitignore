@@ -1,0 +1,27 @@
+# Build artifacts
+*.o
+*.theos
+*.deb
+*.dylib
+*.app
+*.ipa
+
+# Xcode
+*.xcworkspace
+*.xcuserdata
+DerivedData/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+*.dSYM
+
+# Theos
+.theos/
+packages/
