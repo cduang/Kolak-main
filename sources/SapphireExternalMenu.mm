@@ -13,7 +13,6 @@
 #import "FBSOrientationObserver.h"
 #import "FBSOrientationUpdate.h"
 #import "Memory.h"
-#import "CustomSlider.h"
 #import "satooios.h"
 #import "UIHelper.h"
 #import "HUDDrawingOverlay.h"
