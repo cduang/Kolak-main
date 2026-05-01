@@ -268,11 +268,10 @@
     // We only need to ensure the floating button is added.
     
     [self.view addSubview:_menuButton];
-}
-
-// Removed as part of the previous edit to createModMenu
-
-    _modMenuView.backgroundColor = [UIColor clearColor]; 
+    
+    // _modMenuView setup (was orphaned after previous edit)
+    
+    _modMenuView.backgroundColor = [UIColor clearColor];
     _modMenuView.layer.cornerRadius = 10.0;
     _modMenuView.hidden = YES;
     _modMenuView.userInteractionEnabled = YES; 
